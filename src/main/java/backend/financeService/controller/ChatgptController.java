@@ -20,8 +20,8 @@ public class ChatgptController {
     private final ChatgptService chatgptService;
 
     @PostMapping("/chat")
-    public ResponseEntity<?> question(@RequestBody QuestionRequestDto question){
-        ChatgptResponseDto answer = chatgptService.question(question);
+    public ResponseEntity<ChatgptResponseDto> question(@RequestBody QuestionRequestDto questionRequestDto){
+        ChatgptResponseDto answer = chatgptService.question(questionRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(answer);
     }
 }

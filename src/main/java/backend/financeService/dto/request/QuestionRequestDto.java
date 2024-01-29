@@ -2,6 +2,7 @@ package backend.financeService.dto.request;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -10,6 +11,7 @@ import java.io.Serializable;
  * */
 
 @Data
+@NoArgsConstructor
 public class QuestionRequestDto implements Serializable {
 
     private String question;
