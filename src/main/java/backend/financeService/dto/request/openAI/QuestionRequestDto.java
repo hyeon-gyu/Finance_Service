@@ -1,4 +1,4 @@
-package backend.financeService.dto.request;
+package backend.financeService.dto.request.openAI;
 
 
 import lombok.Data;

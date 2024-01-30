@@ -1,13 +1,11 @@
-package backend.financeService.dto.response;
+package backend.financeService.dto.response.openAI;
 
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.theokanning.openai.completion.chat.ChatCompletionChoice;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 

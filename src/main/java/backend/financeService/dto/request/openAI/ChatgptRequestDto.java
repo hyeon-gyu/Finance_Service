@@ -1,9 +1,7 @@
-package backend.financeService.dto.request;
+package backend.financeService.dto.request.openAI;
 
 
 import backend.financeService.config.ChatgptConfig;
-import backend.financeService.dto.response.ChatgptResponseDto;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.theokanning.openai.completion.chat.ChatCompletionRequest;
 import com.theokanning.openai.completion.chat.ChatMessage;
 import lombok.Builder;

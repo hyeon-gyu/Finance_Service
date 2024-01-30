@@ -2,9 +2,9 @@ package backend.financeService.service;
 
 
 
-import backend.financeService.dto.request.ChatgptRequestDto;
-import backend.financeService.dto.request.QuestionRequestDto;
-import backend.financeService.dto.response.ChatgptResponseDto;
+import backend.financeService.dto.request.openAI.ChatgptRequestDto;
+import backend.financeService.dto.request.openAI.QuestionRequestDto;
+import backend.financeService.dto.response.openAI.ChatgptResponseDto;
 import com.theokanning.openai.completion.chat.ChatCompletionResult;
 import com.theokanning.openai.service.OpenAiService;
 

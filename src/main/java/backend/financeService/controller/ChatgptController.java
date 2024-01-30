@@ -1,8 +1,8 @@
 package backend.financeService.controller;
 
 
-import backend.financeService.dto.request.QuestionRequestDto;
-import backend.financeService.dto.response.ChatgptResponseDto;
+import backend.financeService.dto.request.openAI.QuestionRequestDto;
+import backend.financeService.dto.response.openAI.ChatgptResponseDto;
 import backend.financeService.service.ChatgptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,13 +13,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/")
+@RequestMapping("/fintech/chat")
 @RequiredArgsConstructor
 public class ChatgptController {
 
     private final ChatgptService chatgptService;
 
-    @PostMapping("/chat")
+    @PostMapping("/")
     public ResponseEntity<ChatgptResponseDto> question(@RequestBody QuestionRequestDto questionRequestDto){
         ChatgptResponseDto answer = chatgptService.question(questionRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(answer);
