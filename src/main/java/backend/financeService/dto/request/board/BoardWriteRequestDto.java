@@ -1,12 +1,14 @@
 package backend.financeService.dto.request.board;
 
 import backend.financeService.entity.Board;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class BoardWriterRequestDto {
+@AllArgsConstructor
+public class BoardWriteRequestDto {
 
     private String title;
     private String nickname;
@@ -14,14 +16,13 @@ public class BoardWriterRequestDto {
     private String pwd;
 
     // dto -> entity
-    public static Board ofEntity(BoardWriterRequestDto boardWriterRequestDto){
+    public static Board ofEntity(BoardWriteRequestDto boardWriteRequestDto){
         return Board.builder()
-                .title(boardWriterRequestDto.getTitle())
-                .nickname(boardWriterRequestDto.getNickname())
-                .content(boardWriterRequestDto.getContent())
-                .pwd(boardWriterRequestDto.getPwd())
+                .title(boardWriteRequestDto.getTitle())
+                .nickname(boardWriteRequestDto.getNickname())
+                .content(boardWriteRequestDto.getContent())
+                .pwd(boardWriteRequestDto.getPwd())
                 .commentCnt(0)
                 .build();
     }
-
 }
