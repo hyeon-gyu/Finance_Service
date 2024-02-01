@@ -3,12 +3,15 @@ package backend.financeService.board;
 import backend.financeService.dto.request.board.BoardModifyRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
+import backend.financeService.dto.response.board.BoardListResponseDto;
 import backend.financeService.repository.BoardRepository;
 import backend.financeService.service.BoardService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -38,5 +41,12 @@ public class boardTest {
         BoardModifyRequestDto boardModifyRequestDto = new BoardModifyRequestDto("a1234");
         BoardDetailResponseDto boardDetailResponseDto = boardService.pwdCheck(1L, boardModifyRequestDto);
         Assertions.assertEquals("질문이요.",boardDetailResponseDto.getTitle());
+    }
+
+    @Test
+    public void listTest(){
+        Pageable pageable = Pageable.ofSize(10).withPage(1);
+        Page<BoardListResponseDto> result = boardService.list(pageable);
+        Assertions.assertEquals(10,result.getTotalElements());
     }
 }

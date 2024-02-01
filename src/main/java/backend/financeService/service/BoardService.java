@@ -6,11 +6,17 @@ import backend.financeService.dto.request.board.BoardModifyRequestDto;
 import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
+import backend.financeService.dto.response.board.BoardListResponseDto;
 import backend.financeService.entity.Board;
 import backend.financeService.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 @Transactional
@@ -18,6 +24,13 @@ import org.springframework.transaction.annotation.Transactional;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+
+    /** 게시글 목록 조회 */
+    public Page<BoardListResponseDto> list(Pageable pageable){
+        Page<Board> boardList = boardRepository.findAll(pageable);
+        List<BoardListResponseDto> boardListResponseDtos = boardList.stream().map(BoardListResponseDto::fromEntity).toList();
+        return new PageImpl<>(boardListResponseDtos, pageable, boardList.getTotalElements());
+    }
 
     /** 게시글 작성 */
     public BoardDetailResponseDto write(BoardWriteRequestDto boardWriteRequestDto){

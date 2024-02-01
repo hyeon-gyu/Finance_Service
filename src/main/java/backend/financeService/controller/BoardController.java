@@ -5,8 +5,13 @@ import backend.financeService.dto.request.board.BoardModifyRequestDto;
 import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
+import backend.financeService.dto.response.board.BoardListResponseDto;
 import backend.financeService.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,10 +26,12 @@ public class BoardController {
     private final BoardService boardService;
 
     /** 게시글 조회하기 */
-//    @GetMapping("/list")    // list?page=1&size=10
-//    public ResponseEntity<?> list(){
-//
-//    }
+    @GetMapping("/list")    // list?page=1
+    public ResponseEntity<Page<BoardListResponseDto>> list(
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable){
+        Page<BoardListResponseDto> boardListResponseDtos = boardService.list(pageable);
+        return ResponseEntity.status(HttpStatus.OK).body(boardListResponseDtos);
+    }
 
     /** 게시글 작성하기 */
     @PostMapping("/write")
