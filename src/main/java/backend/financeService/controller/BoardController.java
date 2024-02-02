@@ -25,12 +25,21 @@ public class BoardController {
 
     private final BoardService boardService;
 
-    /** 게시글 조회하기 */
+    /** 게시글 목록 조회하기 */
     @GetMapping("/list")    // list?page=1
     public ResponseEntity<Page<BoardListResponseDto>> list(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.DESC)Pageable pageable){
         Page<BoardListResponseDto> boardListResponseDtos = boardService.list(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(boardListResponseDtos);
+    }
+
+    /** 게시글 상세보기 */
+    @GetMapping("/read/{boardId}")
+    public ResponseEntity<BoardDetailResponseDto> read(
+            @PathVariable(name = "boardId") Long boardId)
+    {
+        BoardDetailResponseDto findBoard = boardService.read(boardId);
+        return ResponseEntity.status(HttpStatus.OK).body(findBoard);
     }
 
     /** 게시글 작성하기 */
@@ -55,8 +64,9 @@ public class BoardController {
                                                               @RequestBody BoardUpdateRequestDto boardUpdateRequestDto){
         BoardDetailResponseDto boardDetailResponseDto = boardService.update(boardId, boardUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(boardDetailResponseDto);
-
     }
+
+
 
 
 

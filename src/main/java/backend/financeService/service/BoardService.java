@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -30,6 +31,13 @@ public class BoardService {
         Page<Board> boardList = boardRepository.findAll(pageable);
         List<BoardListResponseDto> boardListResponseDtos = boardList.stream().map(BoardListResponseDto::fromEntity).toList();
         return new PageImpl<>(boardListResponseDtos, pageable, boardList.getTotalElements());
+    }
+
+    /** 게시글 상세보기 (읽기) */
+    public BoardDetailResponseDto read(Long boardId){
+        Board findBoard = boardRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException("게시글을 찾을 수 없습니다. boardId = " + boardId));
+        return BoardDetailResponseDto.fromEntity(findBoard);
     }
 
     /** 게시글 작성 */

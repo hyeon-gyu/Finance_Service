@@ -1,10 +1,15 @@
 package backend.financeService.dto.response.board;
 
 
+import backend.financeService.dto.response.comment.CommentDetailResponseDto;
 import backend.financeService.entity.Board;
+import backend.financeService.entity.Comment;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
@@ -16,15 +21,18 @@ public class BoardDetailResponseDto {
     private String nickname;
     private String title;
     private String content;
-    private String createDate;
+    private String createdDate;
 
+    // 댓글리스트도 함께 전달
+    private List<CommentDetailResponseDto> commentList;
 
-    public BoardDetailResponseDto(Long boardId, String nickname, String title, String content, String createDate) {
+    public BoardDetailResponseDto(Long boardId, String nickname, String title, String content, String createdDate, List<CommentDetailResponseDto> commentList) {
         this.boardId = boardId;
         this.nickname = nickname;
         this.title = title;
         this.content = content;
-        this.createDate = createDate;
+        this.createdDate = createdDate;
+        this.commentList = commentList;
     }
 
     public static BoardDetailResponseDto fromEntity(Board board){
@@ -33,8 +41,9 @@ public class BoardDetailResponseDto {
                 .nickname(board.getNickname())
                 .title(board.getTitle())
                 .content(board.getContent())
-                .createDate(board.getCreateDate())
+                .createdDate(board.getCreatedDate())
+                .commentList(board.getCommentList().stream().map(CommentDetailResponseDto::fromEntity).collect(Collectors.toList()))
+                // comment entity -> comment response dto로 변환
                 .build();
     }
-
 }

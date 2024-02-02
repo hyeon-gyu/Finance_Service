@@ -17,7 +17,7 @@ public class TimeEntity {
 
     @CreatedDate
     @Column(name = "create_date", updatable = false)
-    private String createDate;
+    private String createdDate;
 
     @LastModifiedDate
     @Column(name = "modified_date")
@@ -25,8 +25,8 @@ public class TimeEntity {
 
     @PrePersist
     public void onPrePersist(){
-        this.createDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
-        this.modifiedDate = this.createDate;
+        this.createdDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"));
+        this.modifiedDate = this.createdDate;
     }
 
     @PreUpdate
