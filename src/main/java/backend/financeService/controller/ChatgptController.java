@@ -3,7 +3,7 @@ package backend.financeService.controller;
 
 import backend.financeService.dto.request.openAI.QuestionRequestDto;
 import backend.financeService.dto.response.openAI.ChatgptResponseDto;
-import backend.financeService.service.ChatgptService;
+import backend.financeService.service.openai.ChatgptService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

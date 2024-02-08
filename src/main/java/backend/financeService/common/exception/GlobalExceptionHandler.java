@@ -14,7 +14,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BoardNotFoundException.class)
     public ResponseEntity<ErrorResponse> nullPointerExceptionHandler(BoardNotFoundException e){
-        ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "NOT FOUND");
+        ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "NOT FOUND", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 
@@ -22,7 +22,15 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IncorrectPwdException.class)
     public ResponseEntity<backend.financeService.common.exception.ErrorResponse> IncorrectPwdExceptionHandler(IncorrectPwdException e){
-        ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "NOT SAME");
+        ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "NOT SAME", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+    // 환율 정보 api에 문제 발생시 에러 핸들러
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ExchangeRateException.class)
+    public ResponseEntity<ErrorResponse> ExchangeRateApiExceptionHandler(ExchangeRateException e){
+        ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "EXCHANGE RATE API ERROR", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }

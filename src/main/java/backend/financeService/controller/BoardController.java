@@ -6,7 +6,7 @@ import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
 import backend.financeService.dto.response.board.BoardListResponseDto;
-import backend.financeService.service.BoardService;
+import backend.financeService.service.community.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

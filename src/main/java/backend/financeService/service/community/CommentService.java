@@ -1,4 +1,4 @@
-package backend.financeService.service;
+package backend.financeService.service.community;
 
 import backend.financeService.common.exception.BoardNotFoundException;
 import backend.financeService.dto.request.comment.CommentWriteRequestDto;

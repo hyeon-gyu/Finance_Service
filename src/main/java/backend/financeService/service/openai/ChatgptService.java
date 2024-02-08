@@ -1,4 +1,4 @@
-package backend.financeService.service;
+package backend.financeService.service.openai;
 
 
 

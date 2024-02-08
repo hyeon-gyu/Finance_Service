@@ -1,11 +1,7 @@
 package backend.financeService;
 
-import backend.financeService.dto.request.board.BoardWriteRequestDto;
-import backend.financeService.dto.response.board.BoardDetailResponseDto;
 import backend.financeService.repository.BoardRepository;
-import backend.financeService.service.BoardService;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
+import backend.financeService.service.community.BoardService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;

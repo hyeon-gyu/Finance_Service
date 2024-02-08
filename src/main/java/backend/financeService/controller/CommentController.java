@@ -3,7 +3,7 @@ package backend.financeService.controller;
 
 import backend.financeService.dto.request.comment.CommentWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
-import backend.financeService.service.CommentService;
+import backend.financeService.service.community.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

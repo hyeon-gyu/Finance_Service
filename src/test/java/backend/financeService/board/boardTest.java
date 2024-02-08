@@ -5,7 +5,7 @@ import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
 import backend.financeService.dto.response.board.BoardListResponseDto;
 import backend.financeService.repository.BoardRepository;
-import backend.financeService.service.BoardService;
+import backend.financeService.service.community.BoardService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.slf4j.Logger;

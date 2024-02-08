@@ -26,12 +26,18 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	compileOnly 'org.projectlombok:lombok'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	runtimeOnly 'com.mysql:mysql-connector-j'
+//	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	// postgreSQL lib
+	implementation 'org.postgresql:postgresql:42.6.0'
+
 	// openai thrid party library
 	implementation 'com.theokanning.openai-gpt3-java:service:0.14.0'
+
+	// jsoup : crawling lib (HTML parser)
+	implementation 'org.jsoup:jsoup:1.16.1'
 }
 
 tasks.named('test') {
