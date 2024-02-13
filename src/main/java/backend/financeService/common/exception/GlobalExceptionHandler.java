@@ -21,7 +21,7 @@ public class GlobalExceptionHandler {
     // 비밀번호 불일치 에러 핸들러
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IncorrectPwdException.class)
-    public ResponseEntity<backend.financeService.common.exception.ErrorResponse> IncorrectPwdExceptionHandler(IncorrectPwdException e){
+    public ResponseEntity<ErrorResponse> IncorrectPwdExceptionHandler(IncorrectPwdException e){
         ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "NOT SAME", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }

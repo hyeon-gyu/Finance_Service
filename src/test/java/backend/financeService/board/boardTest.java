@@ -1,6 +1,6 @@
 package backend.financeService.board;
 
-import backend.financeService.dto.request.board.BoardModifyRequestDto;
+import backend.financeService.dto.request.board.BoardEditRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
 import backend.financeService.dto.response.board.BoardListResponseDto;
@@ -41,8 +41,8 @@ public class boardTest {
 
     @Test
     public void modifyTest(){
-        BoardModifyRequestDto boardModifyRequestDto = new BoardModifyRequestDto("a1234");
-        BoardDetailResponseDto boardDetailResponseDto = boardService.pwdCheck(1L, boardModifyRequestDto);
+        BoardEditRequestDto boardEditRequestDto = new BoardEditRequestDto("a1234");
+        BoardDetailResponseDto boardDetailResponseDto = boardService.pwdCheck(1L, boardEditRequestDto);
         Assertions.assertEquals("질문이요.",boardDetailResponseDto.getTitle());
     }
 

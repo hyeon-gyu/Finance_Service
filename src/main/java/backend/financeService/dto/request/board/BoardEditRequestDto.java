@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardModifyRequestDto {
+public class BoardEditRequestDto {
 
     private String pwd;
 }

@@ -1,7 +1,7 @@
 package backend.financeService.controller;
 
 
-import backend.financeService.dto.request.board.BoardModifyRequestDto;
+import backend.financeService.dto.request.board.BoardEditRequestDto;
 import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
@@ -53,8 +53,8 @@ public class BoardController {
     // 게시글 수정하기 버튼 눌렀을 때 ( 비밀번호도 함께 )
     @PostMapping("/pwdCheck/{boardId}")
     public ResponseEntity<BoardDetailResponseDto> pwdCheck(@PathVariable(name = "boardId") Long boardId,
-                                                           @RequestBody BoardModifyRequestDto boardModifyRequestDto){
-        BoardDetailResponseDto boardDetailResponseDto = boardService.pwdCheck(boardId, boardModifyRequestDto);
+                                                           @RequestBody BoardEditRequestDto boardEditRequestDto){
+        BoardDetailResponseDto boardDetailResponseDto = boardService.pwdCheck(boardId, boardEditRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(boardDetailResponseDto);
     }
 
@@ -62,9 +62,16 @@ public class BoardController {
     @PostMapping("/update/{boardId}")
     public ResponseEntity<BoardDetailResponseDto> update(@PathVariable(name = "boardId")Long boardId,
                                                               @RequestBody BoardUpdateRequestDto boardUpdateRequestDto){
-        BoardDetailResponseDto boardDetailResponseDto = boardService.update(boardId, boardUpdateRequestDto);
+        BoardDetailResponseDto boardDetailResponseDto = boardService.updatePost(boardId, boardUpdateRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(boardDetailResponseDto);
     }
+
+//    /** 게시글 삭제하기 */ // 비밀번호와 같아야 삭제 가능
+//    @GetMapping("/delete/{boardId}")
+//    public ResponseEntity<?> deletePost(@PathVariable(name = "boardId")Long boardId,
+//                                        @RequestBody BoardEditRequestDto boardEditRequestDto){
+//        boardService.deletePost(boardId,boardEditRequestDto);
+//    }
 
 
 

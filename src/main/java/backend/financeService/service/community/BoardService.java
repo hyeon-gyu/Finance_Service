@@ -2,7 +2,7 @@ package backend.financeService.service.community;
 
 import backend.financeService.common.exception.BoardNotFoundException;
 import backend.financeService.common.exception.IncorrectPwdException;
-import backend.financeService.dto.request.board.BoardModifyRequestDto;
+import backend.financeService.dto.request.board.BoardEditRequestDto;
 import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -35,8 +34,7 @@ public class BoardService {
 
     /** 게시글 상세보기 (읽기) */
     public BoardDetailResponseDto read(Long boardId){
-        Board findBoard = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException("게시글을 찾을 수 없습니다. boardId = " + boardId));
+        Board findBoard = findPost(boardId);
         return BoardDetailResponseDto.fromEntity(findBoard);
     }
 
@@ -49,21 +47,32 @@ public class BoardService {
     }
 
     /** 게시글 수정 비밀번호 확인 절차 */
-    public BoardDetailResponseDto pwdCheck(Long boardId, BoardModifyRequestDto boardModifyRequestDto){
-        Board existingBoard = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException("게시글을 찾을 수 없습니다. boardId = " + boardId));
-        if (!(existingBoard.getPwd().equals(boardModifyRequestDto.getPwd()))){
-            throw new IncorrectPwdException("비밀번호가 일치하지 않습니다.");
-        }
+    public BoardDetailResponseDto pwdCheck(Long boardId, BoardEditRequestDto boardEditRequestDto){
+        Board existingBoard = findPost(boardId);
+        String password = boardEditRequestDto.getPwd();
+        passwordCheck(boardId,password);
         return BoardDetailResponseDto.fromEntity(existingBoard);
     }
 
     /** 게시글 수정 */
-    public BoardDetailResponseDto update(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto) {
-        // finding board
-        Board existingBoard = boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException("게시글을 찾을 수 없습니다. boardId = " + boardId));
+    public BoardDetailResponseDto updatePost(Long boardId, BoardUpdateRequestDto boardUpdateRequestDto) {
+        Board existingBoard = findPost(boardId);
         existingBoard.updateBoard(boardUpdateRequestDto.getTitle(), boardUpdateRequestDto.getContent());
         return BoardDetailResponseDto.fromEntity(existingBoard);
+    }
+
+    /** (공통) 비밀번호 확인 절차 */
+    public void passwordCheck(Long boardId, String pwd){
+        Board existingBoard = findPost(boardId);
+        if (!(existingBoard.getPwd().equals(pwd))){
+            throw new IncorrectPwdException("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    /** (공통) 게시글 존재 유무 확인 절차 */
+    public Board findPost(Long boardId){
+        return boardRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException("게시글을 찾을 수 없습니다. boardId = " + boardId));
+        // exception 터지면 리턴 못하고 global exception handler가 highjacking하여 error response 진행시작
     }
 }
