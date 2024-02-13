@@ -1,12 +1,14 @@
 package backend.financeService.service.community;
 
 import backend.financeService.common.exception.BoardNotFoundException;
+import backend.financeService.common.exception.DeleteException;
 import backend.financeService.common.exception.IncorrectPwdException;
 import backend.financeService.dto.request.board.BoardEditRequestDto;
 import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
 import backend.financeService.dto.response.board.BoardListResponseDto;
+import backend.financeService.dto.response.board.BoardSimpleResponseDto;
 import backend.financeService.entity.Board;
 import backend.financeService.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +27,21 @@ public class BoardService {
 
     private final BoardRepository boardRepository;
 
+    /** (공통) 비밀번호 확인 절차 */
+    public void passwordCheck(Long boardId, String pwd){
+        Board existingBoard = findPost(boardId);
+        if (!(existingBoard.getPwd().equals(pwd))){
+            throw new IncorrectPwdException("비밀번호가 일치하지 않습니다.");
+        }
+    }
+
+    /** (공통) 게시글 존재 유무 확인 절차 */
+    public Board findPost(Long boardId){
+        return boardRepository.findById(boardId).orElseThrow(
+                () -> new BoardNotFoundException("게시글을 찾을 수 없습니다. boardId = " + boardId));
+        // exception 터지면 리턴 못하고 global exception handler가 highjacking하여 error response 진행시작
+    }
+
     /** 게시글 목록 조회 */
     public Page<BoardListResponseDto> list(Pageable pageable){
         Page<Board> boardList = boardRepository.findAll(pageable);
@@ -33,13 +50,13 @@ public class BoardService {
     }
 
     /** 게시글 상세보기 (읽기) */
-    public BoardDetailResponseDto read(Long boardId){
+    public BoardDetailResponseDto readPost(Long boardId){
         Board findBoard = findPost(boardId);
         return BoardDetailResponseDto.fromEntity(findBoard);
     }
 
     /** 게시글 작성 */
-    public BoardDetailResponseDto write(BoardWriteRequestDto boardWriteRequestDto){
+    public BoardDetailResponseDto writePost(BoardWriteRequestDto boardWriteRequestDto){
         // dto -> entity
         Board newBoard = BoardWriteRequestDto.ofEntity(boardWriteRequestDto);
         Board saveBoard = boardRepository.save(newBoard);
@@ -61,18 +78,15 @@ public class BoardService {
         return BoardDetailResponseDto.fromEntity(existingBoard);
     }
 
-    /** (공통) 비밀번호 확인 절차 */
-    public void passwordCheck(Long boardId, String pwd){
-        Board existingBoard = findPost(boardId);
-        if (!(existingBoard.getPwd().equals(pwd))){
-            throw new IncorrectPwdException("비밀번호가 일치하지 않습니다.");
+    /** 게시글 삭제 */
+    public BoardSimpleResponseDto deletePost(Long boardId, BoardEditRequestDto boardEditRequestDto){
+        Board findBoard = findPost(boardId);
+        passwordCheck(boardId, boardEditRequestDto.getPwd());
+        try{
+            boardRepository.deleteById(boardId);
+            return BoardSimpleResponseDto.fromEntity(findBoard);
+        }catch (Exception e){
+            throw new DeleteException("삭제 도중 에러가 발생했습니다.");
         }
-    }
-
-    /** (공통) 게시글 존재 유무 확인 절차 */
-    public Board findPost(Long boardId){
-        return boardRepository.findById(boardId).orElseThrow(
-                () -> new BoardNotFoundException("게시글을 찾을 수 없습니다. boardId = " + boardId));
-        // exception 터지면 리턴 못하고 global exception handler가 highjacking하여 error response 진행시작
     }
 }

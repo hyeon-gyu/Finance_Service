@@ -31,7 +31,7 @@ public class boardTest {
         //given
         BoardWriteRequestDto boardWriteRequestDto = new BoardWriteRequestDto("제목1","이름1","내용1","비밀번호1");
         //when
-        BoardDetailResponseDto savedBoard = boardService.write(boardWriteRequestDto);
+        BoardDetailResponseDto savedBoard = boardService.writePost(boardWriteRequestDto);
         //then
         Assertions.assertNotNull(savedBoard.getBoardId());
         Assertions.assertEquals("제목1",savedBoard.getTitle());
@@ -56,7 +56,7 @@ public class boardTest {
     @Test
     public void readTest(){
         Logger logger = LoggerFactory.getLogger(BoardDetailResponseDto.class);
-        BoardDetailResponseDto read = boardService.read(1L);
+        BoardDetailResponseDto read = boardService.readPost(1L);
 
         String logMessage = String.join(", ",
                 "BoardId: " + read.getBoardId(),

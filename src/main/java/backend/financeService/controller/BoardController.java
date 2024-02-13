@@ -6,6 +6,7 @@ import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
 import backend.financeService.dto.response.board.BoardDetailResponseDto;
 import backend.financeService.dto.response.board.BoardListResponseDto;
+import backend.financeService.dto.response.board.BoardSimpleResponseDto;
 import backend.financeService.service.community.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,14 +39,14 @@ public class BoardController {
     public ResponseEntity<BoardDetailResponseDto> read(
             @PathVariable(name = "boardId") Long boardId)
     {
-        BoardDetailResponseDto findBoard = boardService.read(boardId);
+        BoardDetailResponseDto findBoard = boardService.readPost(boardId);
         return ResponseEntity.status(HttpStatus.OK).body(findBoard);
     }
 
     /** 게시글 작성하기 */
     @PostMapping("/write")
     public ResponseEntity<BoardDetailResponseDto> write(@RequestBody BoardWriteRequestDto boardWriteRequestDto){
-        BoardDetailResponseDto writeBoard = boardService.write(boardWriteRequestDto);
+        BoardDetailResponseDto writeBoard = boardService.writePost(boardWriteRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(writeBoard);
     }
 
@@ -66,12 +67,13 @@ public class BoardController {
         return ResponseEntity.status(HttpStatus.OK).body(boardDetailResponseDto);
     }
 
-//    /** 게시글 삭제하기 */ // 비밀번호와 같아야 삭제 가능
-//    @GetMapping("/delete/{boardId}")
-//    public ResponseEntity<?> deletePost(@PathVariable(name = "boardId")Long boardId,
-//                                        @RequestBody BoardEditRequestDto boardEditRequestDto){
-//        boardService.deletePost(boardId,boardEditRequestDto);
-//    }
+    /** 게시글 삭제하기 */ // 비밀번호와 같아야 삭제 가능
+    @PostMapping("/delete/{boardId}")
+    public ResponseEntity<?> deletePost(@PathVariable(name = "boardId")Long boardId,
+                                        @RequestBody BoardEditRequestDto boardEditRequestDto){
+        BoardSimpleResponseDto boardSimpleResponseDto = boardService.deletePost(boardId, boardEditRequestDto);
+        return ResponseEntity.status(HttpStatus.OK).body(boardSimpleResponseDto);
+    }
 
 
 

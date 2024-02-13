@@ -33,4 +33,12 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "EXCHANGE RATE API ERROR", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
+
+    // 레코드 삭제 도중 문제 발생시 에러 핸들러
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DeleteException.class)
+    public ResponseEntity<ErrorResponse> DeleteExceptionHandler(DeleteException e){
+        ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "JPA DELETE RUNTIME EXCEPTION ERROR", e.getMessage());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
 }
