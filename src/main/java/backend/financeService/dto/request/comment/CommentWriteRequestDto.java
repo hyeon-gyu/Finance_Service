@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Data
 @NoArgsConstructor
@@ -18,11 +19,12 @@ public class CommentWriteRequestDto {
     private Boolean blind; // 비밀 댓글 여부
 
     @Builder
-    public static Comment ofEntity(CommentWriteRequestDto commentWriteRequestDto){
+    public static Comment ofEntity(CommentWriteRequestDto commentWriteRequestDto, PasswordEncoder passwordEncoder){
         return Comment.builder()
                 .content(commentWriteRequestDto.getContent())
                 .nickname(commentWriteRequestDto.getNickname())
-                .password(commentWriteRequestDto.getPassword())
+                //.password(commentWriteRequestDto.getPassword())
+                .password(passwordEncoder.encode(commentWriteRequestDto.getPassword()))
                 .blind(commentWriteRequestDto.getBlind())
                 .build();
     }

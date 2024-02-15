@@ -3,6 +3,7 @@ package backend.financeService.service.community;
 import backend.financeService.common.exception.NotFoundException;
 import backend.financeService.common.exception.DeleteException;
 import backend.financeService.common.exception.IncorrectPwdException;
+import backend.financeService.config.PwdEncoderConfig;
 import backend.financeService.dto.request.board.BoardEditRequestDto;
 import backend.financeService.dto.request.board.BoardUpdateRequestDto;
 import backend.financeService.dto.request.board.BoardWriteRequestDto;
@@ -12,9 +13,11 @@ import backend.financeService.dto.response.board.BoardSimpleResponseDto;
 import backend.financeService.entity.Board;
 import backend.financeService.repository.BoardRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +29,13 @@ import java.util.List;
 public class BoardService {
 
     private final BoardRepository boardRepository;
+    private final PasswordEncoder passwordEncoder; // 비밀번호 : 단방향 암호화
+
 
     /** (공통) 비밀번호 확인 절차 */
     public void postPwdCheck(Board existingBoard,String pwd){
-        if (!(existingBoard.getPassword().equals(pwd))){
+//        if (!(existingBoard.getPassword().equals(pwd))){
+        if(!passwordEncoder.matches(pwd, existingBoard.getPassword())){
             throw new IncorrectPwdException("비밀번호가 일치하지 않습니다.");
         }
     }
@@ -57,7 +63,7 @@ public class BoardService {
     /** 게시글 작성 */
     public BoardDetailResponseDto writePost(BoardWriteRequestDto boardWriteRequestDto){
         // dto -> entity
-        Board newBoard = BoardWriteRequestDto.ofEntity(boardWriteRequestDto);
+        Board newBoard = BoardWriteRequestDto.ofEntity(boardWriteRequestDto, passwordEncoder);
         Board saveBoard = boardRepository.save(newBoard);
         return BoardDetailResponseDto.fromEntity(saveBoard);
     }

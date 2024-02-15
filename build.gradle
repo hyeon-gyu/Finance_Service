@@ -38,6 +38,9 @@ dependencies {
 
 	// jsoup : crawling lib (HTML parser)
 	implementation 'org.jsoup:jsoup:1.16.1'
+
+	// 비밀번호 단방향 암호화 해싱 작업을 위한 security pkg (24.2.15 기준 최신 ver 3.1.2)
+	implementation 'org.springframework.boot:spring-boot-starter-security:3.1.2'
 }
 
 tasks.named('test') {

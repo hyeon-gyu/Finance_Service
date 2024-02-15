@@ -12,6 +12,7 @@ import backend.financeService.entity.Comment;
 import backend.financeService.repository.BoardRepository;
 import backend.financeService.repository.CommentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,6 +26,7 @@ public class CommentService {
     private final CommentRepository commentRepository;
     private final BoardRepository boardRepository;
     private final BoardService boardService;
+    private final PasswordEncoder passwordEncoder;
 
     /** (공통) 댓글 존재 여부 확인 */
     public Comment findComment(Long commentId){
@@ -34,15 +36,18 @@ public class CommentService {
 
     /** (공통) 댓글 비밀번호 일치 여부 확인 */
     public void CommentPwdCheck(Comment existingComment,String password){
-        if (!(existingComment.getPassword().equals(password))){
+//        if (!(existingComment.getPassword().equals(password))){
+        if(passwordEncoder.matches(password, existingComment.getPassword())){
             throw new IncorrectPwdException("비밀번호가 일치하지 않습니다.");
         }
     }
+
+
     /** 댓글 작성 */
     @Transactional
     public BoardDetailResponseDto writeComment(Long boardId, CommentWriteRequestDto commentWriteRequestDto){
         Board findBoard = boardService.findPost(boardId);
-        Comment newComment = CommentWriteRequestDto.ofEntity(commentWriteRequestDto);
+        Comment newComment = CommentWriteRequestDto.ofEntity(commentWriteRequestDto, passwordEncoder);
         findBoard.addComment(newComment); // board, comment 둘다 정보 기입
         commentRepository.save(newComment); // 지연로딩 때문에 save 과정 없으면 댓글작성후 게시글 dto 리턴될 때 금방 쓴 댓글은 null로 들어감!
         return BoardDetailResponseDto.fromEntity(findBoard);
