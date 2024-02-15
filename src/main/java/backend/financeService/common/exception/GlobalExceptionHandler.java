@@ -12,8 +12,8 @@ public class GlobalExceptionHandler {
     /** exception handler 정리 */
     // not found exception이 발생하면 동작시킬 핸들러 정의
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(BoardNotFoundException.class)
-    public ResponseEntity<ErrorResponse> nullPointerExceptionHandler(BoardNotFoundException e){
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<ErrorResponse> nullPointerExceptionHandler(NotFoundException e){
         ErrorResponse errorResponse = new ErrorResponse("BAD REQUEST", "NOT FOUND", e.getMessage());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }

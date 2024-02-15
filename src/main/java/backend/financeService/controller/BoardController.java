@@ -55,12 +55,12 @@ public class BoardController {
     @PostMapping("/pwdCheck/{boardId}")
     public ResponseEntity<BoardDetailResponseDto> pwdCheck(@PathVariable(name = "boardId") Long boardId,
                                                            @RequestBody BoardEditRequestDto boardEditRequestDto){
-        BoardDetailResponseDto boardDetailResponseDto = boardService.pwdCheck(boardId, boardEditRequestDto);
+        BoardDetailResponseDto boardDetailResponseDto = boardService.updateCheck(boardId, boardEditRequestDto);
         return ResponseEntity.status(HttpStatus.OK).body(boardDetailResponseDto);
     }
 
     // 게시글 수정 완료 버튼 눌렀을 때
-    @PostMapping("/update/{boardId}")
+    @PutMapping("/update/{boardId}")
     public ResponseEntity<BoardDetailResponseDto> update(@PathVariable(name = "boardId")Long boardId,
                                                               @RequestBody BoardUpdateRequestDto boardUpdateRequestDto){
         BoardDetailResponseDto boardDetailResponseDto = boardService.updatePost(boardId, boardUpdateRequestDto);

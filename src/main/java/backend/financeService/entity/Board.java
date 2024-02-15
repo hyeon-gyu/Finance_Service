@@ -8,7 +8,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +23,7 @@ public class Board extends TimeEntity {
     private String title;
     private String nickname;
     private String content;
-    private String pwd; // 게시글 작성시 비밀번호 입력 (6자리 이상, 문자 하나 필수!)
+    private String password; // 게시글 작성시 비밀번호 입력 (6자리 이상, 문자 하나 필수!)
     private int commentCnt; //댓글 갯수 수집
 
 
@@ -34,11 +33,11 @@ public class Board extends TimeEntity {
 
 
     @Builder
-    public Board(String title, String nickname, String content, String pwd, int commentCnt) {
+    public Board(String title, String nickname, String content, String password, int commentCnt) {
         this.title = title;
         this.nickname = nickname;
         this.content = content;
-        this.pwd = pwd;
+        this.password = password;
         this.commentCnt = commentCnt;
         this.commentList = new ArrayList<>();
     }
@@ -48,6 +47,7 @@ public class Board extends TimeEntity {
     public void addComment(Comment comment){
         commentList.add(comment);
         comment.setBoard(this);
+        this.commentCnt++;
     }
 
     public void updateBoard(String title, String content){

@@ -21,7 +21,7 @@ public class BoardWriteRequestDto {
                 .title(boardWriteRequestDto.getTitle())
                 .nickname(boardWriteRequestDto.getNickname())
                 .content(boardWriteRequestDto.getContent())
-                .pwd(boardWriteRequestDto.getPwd())
+                .password(boardWriteRequestDto.getPwd())
                 .commentCnt(0)
                 .build();
     }

@@ -15,7 +15,10 @@ public class Comment extends TimeEntity {
     @Id @Column(name = "comment_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String nickname;
+    private String password;
     private String content;
+    private Boolean blind;
 
     @ManyToOne
     @JoinColumn(name = "board_id")
@@ -23,8 +26,11 @@ public class Comment extends TimeEntity {
     private Board board;
 
     @Builder
-    public Comment(String content, Board board) {
+    public Comment(String nickname, String password, String content, Boolean blind, Board board) {
+        this.nickname = nickname;
+        this.password = password;
         this.content = content;
+        this.blind = blind;
         this.board = board;
     }
 

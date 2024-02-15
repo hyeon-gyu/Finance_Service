@@ -42,7 +42,7 @@ public class boardTest {
     @Test
     public void modifyTest(){
         BoardEditRequestDto boardEditRequestDto = new BoardEditRequestDto("a1234");
-        BoardDetailResponseDto boardDetailResponseDto = boardService.pwdCheck(1L, boardEditRequestDto);
+        BoardDetailResponseDto boardDetailResponseDto = boardService.updateCheck(1L, boardEditRequestDto);
         Assertions.assertEquals("질문이요.",boardDetailResponseDto.getTitle());
     }
 
